@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, NativeAttributeValue, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION,
@@ -11,7 +11,22 @@ const client = new DynamoDBClient({
 
 const docClient = DynamoDBDocumentClient.from(client);
 
-export async function putParkingData(data: any) {
+export type PartialParkingEntry = {
+  url: string;
+  lot_name: string;
+  is_full: boolean;
+};
+
+export type ParkingEntry = {
+  uuid: string;
+  timestamp: string;
+  url: string;
+  lot_name: string;
+  is_full: boolean;
+};
+
+
+export async function putParkingData(data: PartialParkingEntry) {
   const command = new PutCommand({
     TableName: process.env.DYNAMODB_TABLE,
     Item: {
@@ -24,9 +39,9 @@ export async function putParkingData(data: any) {
   return docClient.send(command);
 }
 
-export async function getAllParkingData() {
-  let allItems: any[] = [];
-  let lastEvaluatedKey: Record<string, any> | undefined;
+export async function getAllParkingData(): Promise<ParkingEntry[]> {
+  let allItems: ParkingEntry[] = [];
+  let lastEvaluatedKey: Record<string, NativeAttributeValue> | undefined;
 
   do {
     const command = new ScanCommand({
@@ -35,7 +50,7 @@ export async function getAllParkingData() {
     });
 
     const response = await docClient.send(command);
-    allItems = allItems.concat(response.Items || []);
+    allItems = allItems.concat(response.Items as ParkingEntry[] || []);
     lastEvaluatedKey = response.LastEvaluatedKey;
   } while (lastEvaluatedKey);
 

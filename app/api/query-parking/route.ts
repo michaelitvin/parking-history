@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
 import fetch from 'node-fetch';
-import { putParkingData } from '@/lib/dynamodb';
+import { putParkingData, PartialParkingEntry } from '@/lib/dynamodb';
 
 const TARGET_URLS = [
   "https://www.ahuzot.co.il/Parking/ParkingDetails/?ID=123"
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  let added_data = [];
+  const added_data = [];
 
   try {
     for (const url of TARGET_URLS) {
@@ -23,7 +23,7 @@ export async function GET(req: Request) {
       const is_full = $(".ParkingDetailsTable td img").attr("src")?.includes("male.png") ?? false;
       const lot_name = $(".ParkingTableHeader").text().trim()
 
-      const data: Record<string, any> = {
+      const data : PartialParkingEntry = {
         lot_name,
         is_full,
         url

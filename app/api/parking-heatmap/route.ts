@@ -1,13 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getAllParkingData } from '@/lib/dynamodb';
+import { getAllParkingData, ParkingEntry } from '@/lib/dynamodb';
 
-type ParkingEntry = {
-  id: string;
-  timestamp: string;
-  url: string;
-  lot_name: string;
-  is_full: boolean;
-};
 
 type HeatmapData = {
   day: number;

@@ -118,7 +118,7 @@ export default function Heatmap({ data, title, last_updated }: HeatmapProps) {
       // Clean up tooltip when component unmounts
       d3.selectAll('.tooltip').remove();
     };
-  }, [data, title]);
+  }, [data, title, last_updated]);
 
   return <svg ref={svgRef}></svg>;
 }

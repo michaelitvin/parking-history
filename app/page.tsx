@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Heatmap, { HeatmapData } from './components/Heatmap';
 
 interface ParkingEntry {
-  id: string;
+  uuid: string;
   timestamp: string;
   url: string;
   lot_name: string;
@@ -19,8 +19,6 @@ interface ParkingLotData {
 interface ParkingLotsData {
   [url: string]: ParkingLotData;
 }
-
-const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
 
 export default function Home() {
   const [parkingHeatmapData, setParkingHeatmapData] = useState<ParkingLotsData>({});
