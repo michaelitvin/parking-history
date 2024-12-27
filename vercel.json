@@ -1,0 +1,6 @@
+{
+  "crons": [{
+    "path": "/api/query-parking",
+    "schedule": "*/5 * * * *"
+  }]
+}

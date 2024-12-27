@@ -11,7 +11,11 @@
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.2"
+    "next": "15.1.2",
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "typescript": "^5",
