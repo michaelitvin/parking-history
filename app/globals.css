@@ -5,12 +5,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --text-light: #ffffff;
+  --text-dark: #171717;
+  --background-dark: #333333;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --text-light: #ffffff;
+    --text-dark: #171717;
+    --background-dark: #333333;
   }
 }
 
@@ -18,4 +24,72 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Utility classes for text contrast */
+.text-on-light {
+  color: var(--text-dark);
+}
+
+.text-on-dark {
+  color: var(--text-light);
+}
+
+.bg-dark {
+  background-color: var(--background-dark);
+}
+
+/* Ensure SVG text is visible */
+svg text {
+  fill: currentColor;
+}
+
+/* Form elements */
+input[type="number"] {
+  color: var(--text-light);
+  background-color: var(--background-dark);
+  border: 1px solid var(--text-dark);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+/* Heatmap styles */
+.heatmap-tooltip {
+  position: absolute;
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  border: 1px solid var(--text-dark);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.heatmap-title {
+  direction: rtl;
+  font-size: 16px;
+  fill: var(--foreground);
+  color: var(--text-foreground);
+}
+
+.heatmap-last-updated {
+  font-size: 10px;
+  fill: var(--foreground);
+  color: var(--text-foreground);  
+}
+
+.heatmap-axis text {
+  font-size: 12px;
+  fill: var(--foreground);
+  color: var(--text-foreground);
+}
+
+.heatmap-axis path,
+.heatmap-axis line {
+  stroke: none;
+}
+
+.heatmap-axis-x text {
+  transform: rotate(60deg) translate(20px, 0px);
 }
