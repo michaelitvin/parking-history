@@ -8,7 +8,7 @@ const TARGET_URLS = [
 ];
 
 export async function GET(req: Request) {
-  if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (req.headers.get('x-api-key') !== `${process.env.CUSTOM_CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
