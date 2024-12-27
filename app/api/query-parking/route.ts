@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
 import fetch from 'node-fetch';
-import { putParkingData, PartialParkingEntry } from '@/lib/dynamodb';
+import { putParkingData, ParkingEntry } from '@/lib/dynamodb';
 
 const TARGET_URLS = [
   "https://www.ahuzot.co.il/Parking/ParkingDetails/?ID=123"
@@ -23,7 +23,9 @@ export async function GET(req: Request) {
       const is_full = $(".ParkingDetailsTable td img").attr("src")?.includes("male.png") ?? false;
       const lot_name = $(".ParkingTableHeader").text().trim()
 
-      const data : PartialParkingEntry = {
+      const data : ParkingEntry = {
+        uuid: crypto.randomUUID(),
+        timestamp: new Date().toISOString(),  
         lot_name,
         is_full,
         url

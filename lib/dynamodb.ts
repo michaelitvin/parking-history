@@ -11,12 +11,6 @@ const client = new DynamoDBClient({
 
 const docClient = DynamoDBDocumentClient.from(client);
 
-export type PartialParkingEntry = {
-  url: string;
-  lot_name: string;
-  is_full: boolean;
-};
-
 export type ParkingEntry = {
   uuid: string;
   timestamp: string;
@@ -26,14 +20,10 @@ export type ParkingEntry = {
 };
 
 
-export async function putParkingData(data: PartialParkingEntry) {
+export async function putParkingData(data: ParkingEntry) {
   const command = new PutCommand({
     TableName: process.env.DYNAMODB_TABLE,
-    Item: {
-      uuid: crypto.randomUUID(),
-      timestamp: new Date().toISOString(),
-      ...data,
-    },
+    Item: data,
   });
 
   return docClient.send(command);
