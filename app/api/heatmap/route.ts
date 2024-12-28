@@ -60,11 +60,9 @@ function processDataToHeatmap(data: ParkingEntry[]): ParkingLotsData {
 
     // Calculate percentage for each time slot
     heatmapData.forEach((slot, index) => {
-      if (counters[index] > 0) {
-        slot.value = fullCounts[index] / counters[index];
-        slot.count = fullCounts[index];
-        slot.total = counters[index];
-      }
+      slot.value = fullCounts[index] / counters[index];
+      slot.count = fullCounts[index];
+      slot.total = counters[index];
     });
 
     parkingLots[url].heatmap = heatmapData;
