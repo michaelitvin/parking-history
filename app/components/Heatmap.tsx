@@ -15,6 +15,7 @@ export interface HeatmapData {
 interface HeatmapProps {
   data: HeatmapData[];
   title: string;
+  link: string | null;
   last_updated: string;
 }
 
@@ -27,7 +28,7 @@ const interpolateColor = (t: number): string => {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-export default function Heatmap({ data, title, last_updated }: HeatmapProps) {
+export default function Heatmap({ data, title, link, last_updated }: HeatmapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function Heatmap({ data, title, last_updated }: HeatmapProps) {
       .attr('y', -30)
       .attr('text-anchor', 'middle')
       .attr('class', 'heatmap-title')
-      .html(title);
+      .html(link ? `<a href="${link}" target="_blank">${title}</a>` : title);
 
     // Add last updated text
     svg.append('text')
@@ -126,7 +127,7 @@ export default function Heatmap({ data, title, last_updated }: HeatmapProps) {
       // Clean up tooltip when component unmounts
       d3.selectAll('.tooltip').remove();
     };
-  }, [data, title, last_updated]);
+  }, [data, title, link, last_updated]);
 
   return <svg ref={svgRef}></svg>;
 }

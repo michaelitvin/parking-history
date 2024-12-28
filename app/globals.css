@@ -73,6 +73,11 @@ input[type="number"] {
   color: var(--text-foreground);
 }
 
+.heatmap-title a {
+  fill: var(--foreground);
+  color: var(--text-foreground);
+}
+
 .heatmap-last-updated {
   font-size: 10px;
   fill: var(--foreground);

@@ -82,6 +82,7 @@ export default function Home() {
                     key={url}
                     data={lot_data.heatmap}
                     title={getTitle(lot_data)}
+                    link={url}
                     last_updated={lot_data.last_entry.timestamp}
                   />
                 );
