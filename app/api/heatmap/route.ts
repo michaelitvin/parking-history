@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAllParkingData, ParkingEntry } from '@/lib/dynamodb';
+import { toZonedTime } from 'date-fns-tz';
 
 
 type HeatmapData = {
@@ -44,7 +45,7 @@ function processDataToHeatmap(data: ParkingEntry[]): ParkingLotsData {
     const fullCounts = new Array(7 * 24).fill(0);
 
     lotEntries.forEach(entry => {
-      const date = new Date(entry.timestamp);
+      const date = toZonedTime(entry.timestamp, "Asia/Jerusalem");
       const day = date.getDay();
       const hour = date.getHours();
       const index = day * 24 + hour;

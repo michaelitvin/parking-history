@@ -1,7 +1,7 @@
 import os
 import json
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 import boto3
 import requests
 from bs4 import BeautifulSoup
@@ -48,7 +48,7 @@ def lambda_handler(event, context):
             # Prepare data entry
             data = {
                 'uuid': str(uuid.uuid4()),
-                'timestamp': datetime.utcnow().isoformat(),
+                'timestamp': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
                 'lot_name': lot_name,
                 'is_full': is_full,
                 'url': url

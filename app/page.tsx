@@ -28,7 +28,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('/api/parking-heatmap');
+        const response = await fetch('/api/heatmap');
         const data = await response.json();
         console.log('Data parsed:', data);
         setParkingHeatmapData(data);

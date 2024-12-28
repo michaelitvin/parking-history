@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { toZonedTime } from 'date-fns-tz';
 
 export interface HeatmapData {
   day: number;
@@ -74,7 +75,7 @@ export default function Heatmap({ data, title, last_updated }: HeatmapProps) {
       .attr('y', -10)
       .attr('text-anchor', 'middle')
       .attr('class', 'heatmap-last-updated')
-      .text('Last updated: ' + new Date(last_updated).toLocaleString());
+      .text('Last updated: ' + toZonedTime(last_updated, "Asia/Jerusalem").toLocaleString());
 
     // Add X axis
     svg.append('g')
