@@ -6,6 +6,8 @@ type HeatmapData = {
   day: number;
   hour: number;
   value: number;
+  count: number;  // Number of times the lot was full
+  total: number;  // Total number of observations
 };
 
 type ParkingLotData = {
@@ -36,7 +38,7 @@ function processDataToHeatmap(data: ParkingEntry[]): ParkingLotsData {
     const heatmapData = new Array(7 * 24).fill(0).map((_, index) => {
       const day = Math.floor(index / 24);
       const hour = index % 24;
-      return { day, hour, value: 0 };
+      return { day, hour, value: 0, count: 0, total: 0 };
     });
 
     // Count occurrences and full status for each day/hour combination
@@ -55,10 +57,12 @@ function processDataToHeatmap(data: ParkingEntry[]): ParkingLotsData {
       }
     });
 
-    // Calculate percentage for each time slot
+    // Calculate percentage and include counts for each time slot
     heatmapData.forEach((slot, index) => {
       if (counters[index] > 0) {
         slot.value = fullCounts[index] / counters[index];
+        slot.count = fullCounts[index];
+        slot.total = counters[index];
       }
     });
 

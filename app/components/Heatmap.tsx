@@ -7,6 +7,8 @@ export interface HeatmapData {
   day: number;
   hour: number;
   value: number;
+  count: number;  // Number of times the lot was full
+  total: number;  // Total number of observations
 }
 
 interface HeatmapProps {
@@ -104,7 +106,12 @@ export default function Heatmap({ data, title, last_updated }: HeatmapProps) {
         tooltip.transition()
           .duration(200)
           .style('opacity', .9);
-        tooltip.html(`Day: ${DAYS_OF_WEEK[d.day]}<br/>Time: ${d.hour}:00-${d.hour + 1}:00<br/>Occupancy: ${(d.value * 100).toFixed(0)}%`)
+        tooltip.html(`
+          Day: ${DAYS_OF_WEEK[d.day]}<br/>
+          Time: ${d.hour}:00-${d.hour + 1}:00<br/>
+          Occupancy: ${(d.value * 100).toFixed(0)}%<br/>
+          Full Count: ${d.count} / ${d.total}
+        `)
           .style('left', (event.pageX + 10) + 'px')
           .style('top', (event.pageY - 28) + 'px');
       })

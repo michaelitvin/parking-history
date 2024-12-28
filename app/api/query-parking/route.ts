@@ -12,35 +12,32 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const added_data = [];
+  // Start background processing
+  (async () => {
+    try {
+      for (const url of TARGET_URLS) {
+        const response = await fetch(url);
+        const html = await response.text();
+        const $ = cheerio.load(html);
 
-  try {
-    for (const url of TARGET_URLS) {
-      const response = await fetch(url);
-      const html = await response.text();
-      const $ = cheerio.load(html);
+        const is_full = $(".ParkingDetailsTable td img").attr("src")?.includes("male.png") ?? false;
+        const lot_name = $(".ParkingTableHeader").text().trim()
 
-      const is_full = $(".ParkingDetailsTable td img").attr("src")?.includes("male.png") ?? false;
-      const lot_name = $(".ParkingTableHeader").text().trim()
+        const data: ParkingEntry = {
+          uuid: crypto.randomUUID(),
+          timestamp: new Date().toISOString(),  
+          lot_name,
+          is_full,
+          url
+        };
 
-      const data : ParkingEntry = {
-        uuid: crypto.randomUUID(),
-        timestamp: new Date().toISOString(),  
-        lot_name,
-        is_full,
-        url
-      };
-
-      added_data.push(data);
-      await putParkingData(data);
+        await putParkingData(data);
+      }
+    } catch (error) {
+      console.error('Error in background processing:', error);
     }
+  })();
 
-    return NextResponse.json({ success: true, data: added_data });
-  } catch (error) {
-    console.error('Error querying data:', error);
-    return NextResponse.json(
-      { error: 'Failed to query parking data' },
-      { status: 500 }
-    );
-  }
+  // Return immediately
+  return NextResponse.json({ success: true, message: 'Query initiated' });
 }

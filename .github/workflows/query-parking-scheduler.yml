@@ -6,7 +6,7 @@ on:
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
-  ping:
+  query-parking:
     runs-on: ubuntu-latest
     steps:
       - name: Call API
