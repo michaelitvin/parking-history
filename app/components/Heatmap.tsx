@@ -129,5 +129,5 @@ export default function Heatmap({ data, title, link, last_updated }: HeatmapProp
     };
   }, [data, title, link, last_updated]);
 
-  return <svg ref={svgRef}></svg>;
+  return <svg ref={svgRef} viewBox="0 0 800 300"></svg>;
 }
