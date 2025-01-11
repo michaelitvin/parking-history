@@ -28,11 +28,11 @@ const interpolateColor = (t: number): string => {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-const svgWidth = 800;
-const svgHeight = 300;
 
 export default function Heatmap({ data, title, link, last_updated }: HeatmapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  const svgWidth = 800;
+  const svgHeight = 300;
 
   useEffect(() => {
     if (!data.length || !svgRef.current) return;
@@ -124,9 +124,37 @@ export default function Heatmap({ data, title, link, last_updated }: HeatmapProp
           .style('opacity', 0);
       });
 
+    // Add the triangle
+    const triangle = svg.append('polygon')
+      .attr('fill', d3.rgb(255, 255, 255, 0).toString())
+      .attr('stroke', 'white');
+
+    const updateTriangle = () => {
+      const currentTime = new Date();
+
+      const currentHour = currentTime.getHours();
+      const currentMinute = currentTime.getMinutes();
+      const xPosition = (x(currentHour.toString()) || 0) + x.bandwidth() * currentMinute / 60;
+      const yPosition = (y(DAYS_OF_WEEK[currentTime.getDay()]) || 0) + y.bandwidth() / 2;
+      const triangleWidth = x.bandwidth() * .1;
+      const triangleHalfHeight = y.bandwidth() * .4;
+
+      triangle.attr('points', `
+        ${xPosition + triangleWidth},${yPosition}
+        ${xPosition},${yPosition + triangleHalfHeight}
+        ${xPosition},${yPosition - triangleHalfHeight}
+      `);
+    };
+
+    updateTriangle();
+    const intervalId = setInterval(() => {
+      updateTriangle();
+    }, 60000); // update every 1 minute
+
     return () => {
       // Clean up tooltip when component unmounts
       d3.selectAll('.tooltip').remove();
+      clearInterval(intervalId);
     };
   }, [data, title, link, last_updated]);
 
