@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) project bootstrapped with 
+[`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# Parking History Visualization
+
+A web application that tracks and visualizes parking lot availability patterns over time. The system continuously monitors Ahuzot Hof (אחוזות חוף) parking lots and generates interactive heatmaps showing historical occupancy patterns by day and hour.
+
+![Parking History Heatmap](docs/screenshot.png)
+
+## Features
+
+- **Monitoring**: Tracks parking lot status (occupied/has space) every 10 minutes
+- **Interactive Heatmaps**: Visualize parking patterns by day and hour
+- **Current Status**: Shows last updated parking lot availability
+- **Historical Analysis**: View historical occupancy patterns
+- **Multiple Lots**: Support for monitoring multiple parking locations (though only one is currently used)
+
+## Architecture
+
+The application consists of two main components:
+
+1. **Data Collection**
+   - AWS Lambda function runs every 10 minutes
+   - Scrapes parking lot status from official websites
+   - Stores data in DynamoDB
+
+2. **Web Interface**
+   - Next.js web application
+   - Interactive D3.js visualizations for historical data
+   - Periodic status updates
 
 ## Getting Started
 
-First, run the development server:
-
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up environment variables:
+```bash
+# AWS Configuration
+AWS_REGION=your-region
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+DYNAMODB_TABLE=your-table-name
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# API Configuration
+CUSTOM_CRON_SECRET=your-secret-key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-To learn more about Next.js, take a look at the following resources:
+## Lambda Function Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+See [lambda/README.md](lambda/README.md) for instructions on deploying the data collection function.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GPLv3
