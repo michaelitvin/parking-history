@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Heatmap, { HeatmapData } from './components/Heatmap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 interface ParkingEntry {
   uuid: string;
@@ -73,6 +75,17 @@ export default function Home() {
           )}
         </div>
       </div>
+      <footer className="mt-8 text-sm text-gray-600">
+        <div className="flex gap-4 items-center">
+          <span>Created by Michael Litvin</span>
+          <a href="https://www.linkedin.com/in/litvin" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 text-xl">
+            <FontAwesomeIcon icon={faLinkedin} />
+          </a>
+          <a href="https://github.com/michaelitvin/parking-history" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 text-xl">
+            <FontAwesomeIcon icon={faGithub} />
+          </a>
+        </div>
+      </footer>
     </main>
   );
 }
