@@ -1,24 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAllParkingData, ParkingEntry } from '@/lib/dynamodb';
+import { HeatmapData, ParkingLotData, ParkingLotsData } from '@/lib/heatmap';
 import { toZonedTime } from 'date-fns-tz';
-
-
-type HeatmapData = {
-  day: number;
-  hour: number;
-  value: number;
-  count: number;
-  total: number;
-};
-
-type ParkingLotData = {
-  heatmap: HeatmapData[];
-  last_entry: ParkingEntry;
-};
-
-type ParkingLotsData = {
-  [url: string]: ParkingLotData;
-};
 
 function processDataToHeatmap(data: ParkingEntry[]): ParkingLotsData {
   const parkingLots: ParkingLotsData = {};

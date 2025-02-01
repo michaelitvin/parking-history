@@ -4,23 +4,8 @@ import { useEffect, useState } from 'react';
 import Heatmap, { HeatmapData } from './components/Heatmap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
-
-interface ParkingEntry {
-  uuid: string;
-  timestamp: string;
-  url: string;
-  lot_name: string;
-  is_full: boolean;
-}
-
-interface ParkingLotData {
-  heatmap: HeatmapData[];
-  last_entry: ParkingEntry;
-}
-
-interface ParkingLotsData {
-  [url: string]: ParkingLotData;
-}
+import { ParkingEntry } from '@/lib/dynamodb';
+import { ParkingLotData, ParkingLotsData } from '@/lib/heatmap';
 
 export default function Home() {
   const [parkingHeatmapData, setParkingHeatmapData] = useState<ParkingLotsData>({});
