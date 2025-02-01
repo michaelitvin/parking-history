@@ -1,3 +1,6 @@
+// Deprecated
+// Use lambda/query_parking.py instead
+
 import { NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
 import fetch from 'node-fetch';
@@ -20,7 +23,9 @@ export async function GET(req: Request) {
         const html = await response.text();
         const $ = cheerio.load(html);
 
-        const is_full = $(".ParkingDetailsTable td img").attr("src")?.includes("male.png") ?? false;
+        const img = $(".ParkingDetailsTable td img");
+        const img_src = img.attr("src") || "";
+        const is_full = img_src.includes("male.png");
         const lot_name = $(".ParkingTableHeader").text().trim()
 
         const data: ParkingEntry = {
@@ -28,7 +33,8 @@ export async function GET(req: Request) {
           timestamp: new Date().toISOString(),  
           lot_name,
           is_full,
-          url
+          url,
+          image_src: img_src
         };
 
         await putParkingData(data);

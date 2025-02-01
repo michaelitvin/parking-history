@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAllParkingData, ParkingEntry } from '@/lib/dynamodb';
-import { HeatmapData, ParkingLotData, ParkingLotsData } from '@/lib/heatmap';
+import { ParkingLotsData } from '@/lib/heatmap';
 import { toZonedTime } from 'date-fns-tz';
 
 function processDataToHeatmap(data: ParkingEntry[]): ParkingLotsData {

@@ -42,7 +42,8 @@ def lambda_handler(event, context):
 
             # Extract parking data - optimize selectors
             img_tag = soup.select_one(".ParkingDetailsTable td img")
-            is_full = 'male.png' in (img_tag.get('src', '') if img_tag else '')
+            img_src = img_tag.get('src', '') if img_tag else ''
+            is_full = 'male.png' in img_src
             lot_name = soup.select_one(".ParkingTableHeader").text.strip()
 
             # Prepare data entry
@@ -51,7 +52,8 @@ def lambda_handler(event, context):
                 'timestamp': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
                 'lot_name': lot_name,
                 'is_full': is_full,
-                'url': url
+                'url': url,
+                'image_src': img_src,
             }
 
             # Append data to the list

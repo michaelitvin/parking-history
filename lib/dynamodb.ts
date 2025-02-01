@@ -17,6 +17,7 @@ export type ParkingEntry = {
   url: string;
   lot_name: string;
   is_full: boolean;
+  image_src: string;
 };
 
 

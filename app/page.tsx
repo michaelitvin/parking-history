@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Heatmap, { HeatmapData } from './components/Heatmap';
+import Heatmap from './components/Heatmap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
-import { ParkingEntry } from '@/lib/dynamodb';
 import { ParkingLotData, ParkingLotsData } from '@/lib/heatmap';
 
 export default function Home() {
