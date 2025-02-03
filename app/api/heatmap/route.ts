@@ -54,10 +54,37 @@ function processDataToHeatmap(data: ParkingEntry[]): ParkingLotsData {
   return parkingLots;
 }
 
+// Define the cache type to allow for ParkingLotsData or null
+interface Cache {
+  data: ParkingLotsData | null;
+  timestamp: number | null;
+}
+
+// In-memory cache
+const cache: Cache = {
+  data: null,
+  timestamp: null,
+};
+
+// Define the cache duration (5 minutes in milliseconds)
+const CACHE_DURATION = 5 * 60 * 1000;
+
 export async function GET() {
   try {
+    // Check if cache is valid
+    const now = Date.now();
+    if (cache.data && cache.timestamp && (now - cache.timestamp < CACHE_DURATION)) {
+      console.log('Cache hit');
+      return NextResponse.json(cache.data);
+    }
+
     const rawData = await getAllParkingData();
     const heatmapData = processDataToHeatmap(rawData);
+    
+    // Store the data in cache
+    cache.data = heatmapData;
+    cache.timestamp = now;
+    
     return NextResponse.json(heatmapData);
   } catch (error) {
     console.error('Error generating heatmap data:', error);
